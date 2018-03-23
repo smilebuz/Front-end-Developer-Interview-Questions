@@ -101,18 +101,40 @@
 #### <a name='js-questions'>JS 相关问题：</a>
 
 * 请解释事件代理 (event delegation)。
+  将子元素事件监听器绑定到父元素上 通过事件冒泡触发事件监听器
+  优点：
+      减少内存
+      无需反复绑定、解绑
 * 请解释 JavaScript 中 `this` 是如何工作的。
 * 请解释原型继承 (prototypal inheritance) 的原理。
 * 你怎么看 AMD vs. CommonJS？
 * 请解释为什么接下来这段代码不是 IIFE (立即调用的函数表达式)：`function foo(){ }();`.
   * 要做哪些改动使它变成 IIFE?
+  因为解释器会如下解释：先声明一个函数foo 然后()解释为试图调用一个函数 但是因为没有声明调用函数名，所以会报错
+  两种改动方式：(function foo(){ })() 或者 (function foo(){ }())
 * 描述以下变量的区别：`null`，`undefined` 或 `undeclared`？
   * 该如何检测它们？
+  null-特设的object
+  undefined-声明未赋值
+  undeclared-未生命变量
+  typeof null 是 'object'
+  typeof undefined 是 'undefined'
+
 * 什么是闭包 (closure)，如何使用它，为什么要使用它？
+  在函数中可以访问父作用域中的变量
+
 * 请举出一个匿名函数的典型用例？
+  回调函数
+  立即执行函数
+
 * 你是如何组织自己的代码？是使用模块模式，还是使用经典继承的方法？
+
 * 请指出 JavaScript 宿主对象 (host objects) 和原生对象 (native objects) 的区别？
+
 * 请指出以下代码的区别：`function Person(){}`、`var person = Person()`、`var person = new Person()`？
+  `function Person() {}`: 声明Person构造函数
+  `var person = Person()`: 调用Person函数 并将返回值赋值给变量person
+  `var person = new Person()`: 初始化构造函数Person person是生成的对象
 * `.call` 和 `.apply` 的区别是什么？
 * 请解释 `Function.prototype.bind`？
 * 在什么时候你会使用 `document.write()`？
@@ -134,24 +156,40 @@
 [1,2,3,4,5].duplicator(); // [1,2,3,4,5,1,2,3,4,5]
 ```
 * 什么是三元表达式 (Ternary expression)？“三元 (Ternary)” 表示什么意思？
+
 * 什么是 `"use strict";` ? 使用它的好处和坏处分别是什么？
+
 * 请实现一个遍历至 `100` 的 for loop 循环，在能被 `3` 整除时输出 **"fizz"**，在能被 `5` 整除时输出 **"buzz"**，在能同时被 `3` 和 `5` 整除时输出 **"fizzbuzz"**。
+
 * 为何通常会认为保留网站现有的全局作用域 (global scope) 不去改变它，是较好的选择？
+
 * 为何你会使用 `load` 之类的事件 (event)？此事件有缺点吗？你是否知道其他替代品，以及为何使用它们？
+
 * 请解释什么是单页应用 (single page app), 以及如何使其对搜索引擎友好 (SEO-friendly)。
+
 * 你使用过 Promises 及其 polyfills 吗? 请写出 Promise 的基本用法（ES6）。
+
 * 使用 Promises 而非回调 (callbacks) 优缺点是什么？
+
 * 使用一种可以编译成 JavaScript 的语言来写 JavaScript 代码有哪些优缺点？
+
 * 你使用哪些工具和技术来调试 JavaScript 代码？
+
 * 你会使用怎样的语言结构来遍历对象属性 (object properties) 和数组内容？
+
 * 请解释可变 (mutable) 和不变 (immutable) 对象的区别。
   * 请举出 JavaScript 中一个不变性对象 (immutable object) 的例子？
   * 不变性 (immutability) 有哪些优缺点？
   * 如何用你自己的代码来实现不变性 (immutability)？
+
 * 请解释同步 (synchronous) 和异步 (asynchronous) 函数的区别。
+
 * 什么是事件循环 (event loop)？
   * 请问调用栈 (call stack) 和任务队列 (task queue) 的区别是什么？
+
 * 解释 `function foo() {}` 与 `var foo = function() {}` 用法的区别
+  `function foo() {}` 函数声明 会提升到最顶端
+  `var foo = function() {}` 函数变量声明 会解释称`var foo = undefined` 执行到声明行时才解释为`foo = function () {}`
 
 #### <a name='testing-questions'>测试相关问题：</a>
 
@@ -187,12 +225,23 @@
 ```javascript
 var foo = 10 + '20';
 ```
+'1020'
 
 *问题：如何实现以下函数？*
 ```javascript
 add(2, 5); // 7
 add(2)(5); // 7
 ```
+function add (num1, num2) {
+  if (arguments.length === 1) {
+    return function (num) {
+      return num1 + num
+    }
+  }
+  if (arguments.length === 2) {
+    return num1 + num2
+  }
+}
 
 *问题：下面的语句的返回值是什么？*
 ```javascript
@@ -213,6 +262,8 @@ var foo = "Hello";
 })();
 alert(foo + bar);
 ```
+"Hello World"
+报错 变量bar underclared
 
 *问题：`foo.length`的值是什么？*
 ```javascript
@@ -220,6 +271,7 @@ var foo = [];
 foo.push(1);
 foo.push(2);
 ```
+2
 
 *问题：`foo.x`的值是什么？*
 ```javascript
